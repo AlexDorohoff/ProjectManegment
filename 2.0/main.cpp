@@ -31,7 +31,7 @@ void setBallNewPosition(Ball &ball, sf::Clock &clock)
     const float deltaTime = clock.restart().asSeconds();
 
     sf::Vector2f position = ball.shape.getPosition();
-    std::cout << position.x << std::endl;
+
     position += ball.speed * deltaTime;
 
     if ((position.x + 2 * ball.shape.getRadius() >= WINDOW_WIDTH) && (ball.speed.x > 0))
@@ -80,14 +80,11 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
 
-            window.clear();
-            setBallNewPosition(ball, clock);
-            drawBall(window, ball);
-            pollEvents(window);
-            window.display();
-        }
+        window.clear();
+        setBallNewPosition(ball, clock);
+        drawBall(window, ball);
+        pollEvents(window);
+        window.display();
     }
 }
