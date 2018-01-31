@@ -71,7 +71,7 @@ void pollEvents(sf::RenderWindow &window)
 int main()
 {
 
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Moving ballZ");
+    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Moving balls");
     sf::Clock clock;
 
     Ball ball;
