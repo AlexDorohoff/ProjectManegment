@@ -83,10 +83,8 @@ void getBallParametrs(BallParameters (&array)[maxNumberOfBalls])
 void collisionWall(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
 {
     const float deltaTime = clock.restart().asSeconds();
-
     for (int i = 0; i < maxNumberOfBalls; i++)
     {
-
         sf::Vector2f position = arrayOfBalls[i].shape.getPosition();
         position += arrayOfBalls[i].speed * deltaTime;
 
@@ -116,10 +114,9 @@ float length(const sf::Vector2f &vector)
     return std::hypot(vector.x, vector.y);
 }
 
-void colliisionBall(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
+void collisionBall(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
 {
     const float deltaTime = clock.restart().asSeconds();
-
     for (int i = 0; i < maxNumberOfBalls; ++i)
     {
         for (int j = i + 1; j < maxNumberOfBalls; ++j)
@@ -182,9 +179,8 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-
         collisionWall(arrayOfBalls, clock);
-        collisionWall(arrayOfBalls, clock);
+        collisionBall(arrayOfBalls, clock);
         window.clear();
         drawBalls(arrayOfBalls, window);
         window.display();
