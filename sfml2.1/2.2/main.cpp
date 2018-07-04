@@ -9,7 +9,6 @@
 
 constexpr unsigned WINDOW_WIDTH = 800;
 constexpr unsigned WINDOW_HEIGHT = 600;
-
 constexpr unsigned maxNumberOfBalls = 10;
 
 struct Ball
@@ -69,40 +68,41 @@ void initBall(Ball (&ball)[maxNumberOfBalls], BallParameters (&parametrs)[maxNum
 
 void getBallParametrs(BallParameters (&array)[maxNumberOfBalls])
 {
-    array[0] = {10.f, sf::Color(0x99, 0x33, 0x66), sf::Vector2f{280, 320}};
-    array[1] = {70.f, sf::Color(0xFF, 0x99, 0xCC), sf::Vector2f{20, 100}};
-    array[2] = {34.f, sf::Color(0xFF, 0x00, 0x00), sf::Vector2f{250, 350}};
-    array[3] = {30.f, sf::Color(0x33, 0x33, 0x99), sf::Vector2f{400, 300}};
-    array[4] = {40.f, sf::Color(0x00, 0xFF, 0xFF), sf::Vector2f{500, 500}};
-    array[5] = {35.f, sf::Color(0xFF, 0xFF, 0x00), sf::Vector2f{600, 400}};
-    array[6] = {25.f, sf::Color(0xFF, 0x99, 0x00), sf::Vector2f{100, 400}};
-    array[7] = {15.f, sf::Color(0x00, 0x00, 0xFF), sf::Vector2f{50, 150}};
-    array[8] = {20.f, sf::Color(0xFF, 0xFF, 0xFF), sf::Vector2f{250, 380}};
-    array[9] = {10.f, sf::Color(0x96, 0x96, 0x96), sf::Vector2f{100, 200}};
+    array[0] = {10.f, sf::Color(0x99, 0x33, 0x66), sf::Vector2f{20, 20}};
+    array[1] = {70.f, sf::Color(0xFF, 0x99, 0xCC), sf::Vector2f{120, 100}};
+    array[2] = {34.f, sf::Color(0xFF, 0x00, 0x00), sf::Vector2f{200, 200}};
+    array[3] = {30.f, sf::Color(0x33, 0x33, 0x99), sf::Vector2f{300, 300}};
+    array[4] = {30.f, sf::Color(0x00, 0xFF, 0xFF), sf::Vector2f{400, 400}};
+    array[5] = {35.f, sf::Color(0xFF, 0xFF, 0x00), sf::Vector2f{500, 500}};
+    array[6] = {25.f, sf::Color(0xFF, 0x99, 0x00), sf::Vector2f{600, 600}};
+    array[7] = {15.f, sf::Color(0x00, 0x00, 0xFF), sf::Vector2f{700, 700}};
+    array[8] = {20.f, sf::Color(0xFF, 0xFF, 0xFF), sf::Vector2f{750, 750}};
+    array[9] = {10.f, sf::Color(0x96, 0x96, 0x96), sf::Vector2f{100, 400}};
 }
 
-void setBallNewPosition(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
+void collisionWall(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
 {
     const float deltaTime = clock.restart().asSeconds();
 
     for (int i = 0; i < maxNumberOfBalls; i++)
     {
+
         sf::Vector2f position = arrayOfBalls[i].shape.getPosition();
         position += arrayOfBalls[i].speed * deltaTime;
 
-        if ((position.x + 2 * arrayOfBalls[i].shape.getRadius() >= WINDOW_WIDTH) && (arrayOfBalls[i].speed.x > 0))
+        if ((position.x + arrayOfBalls[i].shape.getRadius() >= WINDOW_WIDTH) && (arrayOfBalls[i].speed.x > 0))
         {
             arrayOfBalls[i].speed.x = -arrayOfBalls[i].speed.x;
         }
-        if ((position.x < 0) && (arrayOfBalls[i].speed.x < 0))
+        if (((position.x - arrayOfBalls[i].shape.getRadius()) < 0) && (arrayOfBalls[i].speed.x < 0))
         {
             arrayOfBalls[i].speed.x = -arrayOfBalls[i].speed.x;
         }
-        if ((position.y + 2 * arrayOfBalls[i].shape.getRadius() >= WINDOW_HEIGHT) && (arrayOfBalls[i].speed.y > 0))
+        if ((position.y + arrayOfBalls[i].shape.getRadius() >= WINDOW_HEIGHT) && (arrayOfBalls[i].speed.y > 0))
         {
             arrayOfBalls[i].speed.y = -arrayOfBalls[i].speed.y;
         }
-        if ((position.y < 0) && (arrayOfBalls[i].speed.y < 0))
+        if (((position.y - arrayOfBalls[i].shape.getRadius()) < 0) && (arrayOfBalls[i].speed.y < 0))
         {
             arrayOfBalls[i].speed.y = -arrayOfBalls[i].speed.y;
         }
@@ -116,7 +116,7 @@ float length(const sf::Vector2f &vector)
     return std::hypot(vector.x, vector.y);
 }
 
-void checkBallsClash(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
+void colliisionBall(Ball (&arrayOfBalls)[maxNumberOfBalls], sf::Clock &clock)
 {
     const float deltaTime = clock.restart().asSeconds();
 
@@ -183,8 +183,8 @@ int main()
     {
         sf::Event event;
 
-        setBallNewPosition(arrayOfBalls, clock);
-        checkBallsClash(arrayOfBalls, clock);
+        collisionWall(arrayOfBalls, clock);
+        collisionWall(arrayOfBalls, clock);
         window.clear();
         drawBalls(arrayOfBalls, window);
         window.display();
